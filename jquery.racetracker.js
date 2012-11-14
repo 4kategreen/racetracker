@@ -5,11 +5,11 @@
     formula: true, // some other day i'll add more formulae
     distanceType: 'miles', // miles, km
     dataSource: 'form', // form, csv, json
-    dataLocation: '.', // if it's form, blank, but otherwise location in tree?
+    dataFile: '.', // if it's form, blank, but otherwise location in tree?
     graphId: 'racetracker' //this.attr('id')
   };
 
-  var data = [['20-Jun-2012',26.27],['30-Jun-2012',25.25],['14-Jul-2012',25.21]];
+  var data = ''; //[['20-Jun-2012',26.27],['30-Jun-2012',25.25],['14-Jul-2012',25.21]];
 
   var methods = {
     init: function(options) { 
@@ -18,10 +18,22 @@
       }
     },
     uploadData: function( ) {
-      // get data source
-
       // get data
       var precheckData = '';
+
+      // get data source
+      switch(settings.dataSource) {
+        case 'csv':
+          var file = settings.dataFile;
+          break;
+        case 'json':
+          var file = settings.dataFile;
+          break;
+        case 'form':
+        default:
+          // format data from form
+          break;
+      }
 
       // validate
       this.validateData();
@@ -45,6 +57,10 @@
               formatString:'%b&nbsp;%#d',
             }
           }
+        },
+        highlighter: {
+          show: true,
+          sizeAdjust: 7.5
         }
       })
     },
