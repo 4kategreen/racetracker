@@ -1,0 +1,20 @@
+#raceform {
+  width: 80%;
+  overflow: visible;
+}
+#raceform table {
+  width: 100%;
+}
+#raceform th,
+#raceform td {
+  border-collapse: collapse;
+  border: 1px solid #000000;
+}
+.hours,
+.minutes,
+.seconds {
+  width: 2em;
+}
+input {
+  line-height: 1.1em;
+}
