@@ -5,11 +5,19 @@
     formula: true, // some other day i'll add more formulae
     distanceType: 'miles', // miles, km
     dataSource: 'form', // form, csv, json
+    formMap: {
+      name: 'name',
+      date: 'date',
+      hours: 'hours',
+      minutes: 'minutes',
+      seconds: 'seconds',
+      distance: 'distance' 
+    }, // false if it's not form, or array
     dataFile: '.', // if it's form, blank, but otherwise location in tree?
     graphId: 'racetracker' //this.attr('id')
   };
 
-  var data = ''; //[['20-Jun-2012',26.27],['30-Jun-2012',25.25],['14-Jul-2012',25.21]];
+  var data = [['20-Jun-2012',26.27],['30-Jun-2012',25.25],['14-Jul-2012',25.21]];
 
   var methods = {
     init: function(options) { 
@@ -31,7 +39,9 @@
           break;
         case 'form':
         default:
-          // format data from form
+          $('#race_data').each(function() {
+
+          });
           break;
       }
 
@@ -44,8 +54,13 @@
       });
     },
     validateData: function( ) { 
-      // GOOD
+
     },
+    // Test ideas:
+    // graph takes pre-defined arguments settings.graphId and data
+    // test nonexistant id
+    // test data malformed
+    // test all/each jqPlot and javascript missing
     graph: function() { 
       $.jqplot(settings.graphId,[data], {
         axes: {
