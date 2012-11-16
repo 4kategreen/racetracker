@@ -40,54 +40,14 @@
          settings.id = $this.attr('id');
         }
       });
-    },
-    uploadData: function( ) {
-      // get data
-      var precheckData = '';
-
-      // get data source
-      switch(settings.dataSource) {
-        case 'csv':
-          var file = settings.dataFile;
-          break;
-        case 'json':
-          var file = settings.dataFile;
-          break;
-        case 'form':
-        default:
-          formatFormData();
-          break;
-      }
-
-      // validate
-      //validateData();
-
-      // save to data 
-    },
-    validateData: function( ) { 
-
-    },
-    formatFormData: function() {
-      $('.race').each(function() {
-        var time = $(this).find('.hours').val() + ':' +
-                   $(this).find('.minutes').val() + ':' + 
-                   $(this).find('.seconds').val();
-        var race = [
-          $(this).find('.date').val(),
-          time,
-          $(this).find('.name').val()
-        ];
-        data.push(race);
-      });
-    },
-    
+    },    
     graph: function() {
       try {
-        methods.formatFormData();
+        // uploadData(settings);
+        data = formatFormData($('tr.race'));
       } catch(e) {
         console.log(e);
       }
-      return false;
       $.jqplot(settings.id,[data], {
         seriesDefaults: { 
           pointLabels:{ show:true, location:'s', ypadding:3 }
@@ -98,7 +58,10 @@
             renderer: $.jqplot.DateAxisRenderer,
             numberTicks: 4,
             tickOptions: {
-              formatString:'%b&nbsp;%#d',
+              formatString: '%b %#d, %y',
+            },
+          yaxis: {
+            label: 'Results'
             }
           }
         },
@@ -129,3 +92,55 @@
   };
 
 })(jQuery);
+
+function uploadData(settings) {
+  // get data
+  var precheckData = '';
+
+  // get data source
+  switch(settings.dataSource) {
+    case 'csv':
+      var file = settings.dataFile;
+      break;
+    case 'json':
+      var file = settings.dataFile;
+      break;
+    case 'form':
+    default:
+      $rows = $('.race');
+      formatFormData();
+      break;
+  }
+
+  // validate
+  //validateData();
+
+  // save to data 
+}
+
+function validateData() { 
+
+}
+
+function formatFormData($form) {
+  var data = [];
+  $form.each(function() {
+    var hours = $(this).find('.hours').val();
+    var minutes = $(this).find('.minutes').val();
+    var seconds = $(this).find('.seconds').val();
+
+    minutes += hours * 60;
+    seconds = (seconds*100)/60;
+
+    var time = minutes+'.'+seconds;
+    alert(time);
+    var race = [
+      $(this).find('.date').val(),
+      time,
+      $(this).find('.name').val()
+    ];
+    data.push(race);
+  });
+
+  return data;
+}
