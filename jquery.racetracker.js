@@ -14,16 +14,32 @@
       distance: 'distance' 
     }, // false if it's not form, or array
     dataFile: '.', // if it's form, blank, but otherwise location in tree?
-    graphId: 'racetracker' //this.attr('id')
   };
 
-  var data = [['20-Jun-2012',26.27],['30-Jun-2012',25.25],['14-Jul-2012',25.21]];
+  var data = [];
 
   var methods = {
     init: function(options) { 
-      if (options) { 
-        $.extend(settings, options);
-      }
+      return this.each(function(){
+        if (options) { 
+          $.extend(settings, options);
+        }         
+        var $this = $(this),
+           data = $this.data('racetracker'),
+           racetracker = $('<div />', {
+             text : $this.attr('title')
+           });
+
+        // If the plugin hasn't been initialized yet
+        if (!data) {
+         $(this).data('racetracker', {
+             target : $this,
+             racetracker : racetracker
+         });
+
+         settings.id = $this.attr('id');
+        }
+      });
     },
     uploadData: function( ) {
       // get data
@@ -39,30 +55,45 @@
           break;
         case 'form':
         default:
-          $('#race_data').each(function() {
-
-          });
+          formatFormData();
           break;
       }
 
       // validate
-      this.validateData();
+      //validateData();
 
       // save to data 
-      precheckData.each(function() {
-        data.push(this);
-      });
     },
     validateData: function( ) { 
 
     },
-    // Test ideas:
-    // graph takes pre-defined arguments settings.graphId and data
-    // test nonexistant id
-    // test data malformed
-    // test all/each jqPlot and javascript missing
-    graph: function() { 
-      $.jqplot(settings.graphId,[data], {
+    formatFormData: function() {
+      $('.race').each(function() {
+        var time = $(this).find('.hours').val() + ':' +
+                   $(this).find('.minutes').val() + ':' + 
+                   $(this).find('.seconds').val();
+        var race = [
+          $(this).find('.date').val(),
+          time,
+          $(this).find('.name').val()
+        ];
+        data.push(race);
+        console.log('format '+data);
+      });
+    },
+    
+    graph: function() {
+      try {
+        formatFormData();
+      } catch(e) {
+        console.log(e);
+      }
+      console.log('graph'+data);
+      return false;
+      $.jqplot(settings.id,[data], {
+        seriesDefaults: { 
+          pointLabels:{ show:true, location:'s', ypadding:3 }
+        },
         axes: {
           xaxis: {
             label: 'Race Dates',
