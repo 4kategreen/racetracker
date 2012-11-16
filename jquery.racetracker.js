@@ -78,17 +78,15 @@
           $(this).find('.name').val()
         ];
         data.push(race);
-        console.log('format '+data);
       });
     },
     
     graph: function() {
       try {
-        formatFormData();
+        methods.formatFormData();
       } catch(e) {
         console.log(e);
       }
-      console.log('graph'+data);
       return false;
       $.jqplot(settings.id,[data], {
         seriesDefaults: { 
@@ -119,14 +117,13 @@
   };
 
   $.fn.racetracker = function(method) {
-
     // Method calling logic
     if ( methods[method] ) {
       return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
     } else if ( typeof method === 'object' || ! method ) {
       return methods.init.apply( this, arguments );
     } else {
-      $.error( 'Method ' +  method + ' does not exist on jQuery.racetracker' );
+      $.error( 'Method ' +  method + ' does not exist in racetracker' );
     }    
   
   };
