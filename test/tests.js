@@ -1,9 +1,7 @@
-// Test ideas:
-// graph takes pre-defined arguments settings.graphId and data
-// test data malformed
-// test all/each jqPlot and javascript missing
-// test jqPlot worked?
-module('graph method');
-test('data is valid',function() {
-	equals($('#racetracker').racetracker(data,[],'not an array')
+module('format date method');
+// test input is numerical
+// test minutes, seconds < 60
+// math is done correctly (hours*60 + minutes)
+test('inputs are valid',function() {
+	
 });

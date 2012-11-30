@@ -125,11 +125,14 @@ function validateData() {
 function formatFormData($form) {
   var data = [];
   $form.each(function() {
+    // get hour values
     var hours = $(this).find('.hours').val();
     var minutes = $(this).find('.minutes').val();
     var seconds = $(this).find('.seconds').val();
 
+    // convert hours to minutes
     minutes += hours * 60;
+    // convert minutes to be decimal
     seconds = (seconds*100)/60;
 
     var time = minutes+'.'+seconds;
